@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111d">
+  <meta name="description" content="Protótipo experimental EFB Brasil para estudo de mapa, GPS e waypoints.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="EFB Brasil">
-  <title>EFB Brasil • Protótipo</title>
+  <title>EFB Brasil • Protótipo V1.2</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">✈</span><div><strong>EFB BRASIL</strong><small>PROTÓTIPO • V1</small></div></div>
+    <div class="brand"><span class="brand-mark">✈</span><div><strong>EFB BRASIL</strong><small>PROTÓTIPO • V1.2</small></div></div>
     <div id="gpsStatus" class="status"><span class="dot"></span> GPS OFF</div>
   </header>
 
@@ -24,20 +25,49 @@
       <div class="map-label">MAPA BASE · ONLINE</div>
       <button id="followBtn" class="map-button follow active" aria-label="Alternar acompanhamento">SEGUIR</button>
       <button id="locateBtn" class="map-button locate" aria-label="Centralizar na minha localização">⌖</button>
-      <div id="mapWarning" class="map-warning">Mapa de referência. Não é carta aeronáutica.</div>
+      <div class="map-warning">MAPA DE REFERÊNCIA — NÃO É CARTA AERONÁUTICA</div>
     </section>
 
     <section class="instrument-panel">
       <div class="metrics">
         <div class="metric"><label>GS</label><strong id="speed">---</strong><span>KT</span></div>
         <div class="metric"><label>ALT GPS</label><strong id="altitude">---</strong><span>FT</span></div>
-        <div class="metric"><label>TRK</label><strong id="heading">---</strong><span>°</span></div>
+        <div class="metric"><label>TRK</label><strong id="heading">---</strong><span>° TRUE</span></div>
       </div>
       <div class="coord-row"><div><label>LAT</label><strong id="lat">--.------</strong></div><div><label>LON</label><strong id="lon">--.------</strong></div></div>
       <div class="detail-row"><span>PRECISÃO</span><strong id="accuracy">---</strong><span class="divider"></span><span>QUALIDADE</span><strong id="quality">---</strong><span class="divider"></span><span>IDADE</span><strong id="age">---</strong></div>
     </section>
 
+    <section class="route-panel" aria-label="Planejamento de waypoint">
+      <div class="route-heading">
+        <div><span class="eyebrow">NAVEGAÇÃO EXPERIMENTAL</span><h2>WAYPOINT / DIRECT TO</h2></div>
+        <span id="routeStatus" class="route-status">SEM DESTINO</span>
+      </div>
+      <div class="route-readouts">
+        <div><label>DESTINO</label><strong id="activeWaypointName">---</strong></div>
+        <div><label>DISTÂNCIA</label><strong id="routeDistance">---</strong><small>NM</small></div>
+        <div><label>BRG TRUE</label><strong id="routeBearing">---</strong><small>°</small></div>
+      </div>
+
+      <form id="waypointForm" class="waypoint-form">
+        <label class="name-field">IDENTIFICAÇÃO<input id="waypointName" type="text" maxlength="24" placeholder="Ex.: PONTO 1" required></label>
+        <label>LATITUDE (°)<input id="waypointLat" type="text" inputmode="decimal" placeholder="-15.55000" autocomplete="off" required></label>
+        <label>LONGITUDE (°)<input id="waypointLon" type="text" inputmode="decimal" placeholder="-54.00000" autocomplete="off" required></label>
+        <button class="primary save-waypoint" type="submit">SALVAR E ATIVAR DIRECT TO</button>
+      </form>
+
+      <div class="saved-waypoints">
+        <label for="savedWaypoint">PONTOS SALVOS NESTE DISPOSITIVO</label>
+        <div class="saved-controls">
+          <select id="savedWaypoint"><option value="">Nenhum ponto salvo</option></select>
+          <button id="activateSavedBtn" class="secondary" type="button">ATIVAR</button>
+        </div>
+      </div>
+      <button id="cancelRouteBtn" class="cancel-route" type="button">CANCELAR DESTINO ATIVO</button>
+      <p class="route-caution">BRG TRUE e distância são cálculos geométricos aproximados entre a última posição GPS e o ponto. Não incluem vento, declinação magnética, obstáculos, espaços aéreos ou procedimentos. Não usar para conduzir voo.</p>
+    </section>
   </main>
+
   <footer class="bottom-bar">
     <button id="startBtn" class="primary">INICIAR GPS</button>
     <button id="clearTrailBtn" class="secondary">LIMPAR RASTRO</button>

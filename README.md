@@ -1,37 +1,37 @@
-# EFB Brasil — protótipo V1 (PWA)
+# EFB Brasil — protótipo V1.2 (PWA)
 
-**Escopo desta versão:** mapa base online, geolocalização do navegador, velocidade/altitude reportadas pelo dispositivo, coordenadas, precisão, idade do último fix e rastro de posição.
+**Novidade V1.2:** cadastro local de waypoints em graus decimais, seleção de ponto salvo e função experimental DIRECT TO com linha geodésica de referência, distância em NM e bearing inicial verdadeiro (BRG TRUE).
 
-## Importante / segurança
-- Este protótipo **não é um EFB operacional**, não é certificado e não deve ser usado para navegação aérea.
-- O fundo de mapa é OpenStreetMap padrão, **não carta aeronáutica**.
-- Os dados de GPS do celular podem ser imprecisos, atrasados, indisponíveis ou não representarem sensores de aeronave.
-- Cartas, NOTAM, AIP, procedimentos e informações oficiais devem ser consultados no AISWEB/DECEA e nos canais apropriados. Nunca substitua instrumentos, briefing ou fontes oficiais por este protótipo.
-- O mapa usa tiles online e o código shell possui cache básico. **Não há mapa offline nesta versão**; tiles, Leaflet CDN e a localização do browser podem depender de conexão/serviços.
+## Como atualizar no GitHub Pages
+1. Faça backup do repositório atual.
+2. Extraia o conteúdo deste pacote.
+3. Substitua no repositório os arquivos `index.html`, `app.js`, `style.css`, `sw.js`, `manifest.webmanifest` e `README.md`.
+4. Faça commit na branch publicada pelo GitHub Pages.
+5. No iPhone, abra o endereço no Safari. Aguarde a atualização do site; se continuar vendo a versão anterior, feche a PWA, abra o endereço no Safari e recarregue. A chave de cache foi alterada para `v1.2`.
+
+## Como usar o waypoint
+1. Inicie o GPS e aguarde um fix recente.
+2. Em WAYPOINT / DIRECT TO, informe uma identificação e latitude/longitude em **graus decimais**. Exemplo de formato: `-15.55000` e `-54.00000`. O campo aceita vírgula decimal, mas não graus/minutos/segundos nem letras N/S/E/W.
+3. Toque em **SALVAR E ATIVAR DIRECT TO**. O ponto fica salvo no armazenamento local deste navegador/dispositivo.
+4. A linha magenta é uma representação geométrica de referência. DISTÂNCIA usa fórmula de Haversine com raio médio da Terra; BRG TRUE é o azimute inicial verdadeiro calculado a partir do último fix.
+5. Para ativar outro ponto salvo, selecione-o e toque em ATIVAR. CANCELAR DESTINO remove a rota ativa, mas mantém os pontos salvos.
+
+## Limitações importantes
+- Este é um protótipo educacional e **não é um EFB operacional, certificado ou aprovado para navegação aérea**.
+- O fundo é OpenStreetMap padrão, não carta aeronáutica.
+- BRG TRUE não é proa magnética. Não há correção de declinação magnética, vento, deriva, performance, obstáculos, terreno, espaços aéreos, NOTAM, procedimentos ou restrições.
+- A distância é grande-círculo aproximada entre coordenadas; não é distância de rota operacional nem previsão de tempo.
+- Coordenadas dependem do GPS/browser e podem estar imprecisas, atrasadas ou indisponíveis. Se o fix tiver mais de 10 segundos, os valores de rota são ocultados.
+- Waypoints ficam em `localStorage` do navegador e podem ser apagados pelo sistema ou pelo usuário; não há sincronização nem backup nesta versão.
+- O shell básico é armazenado em cache, mas os tiles do mapa e as bibliotecas Leaflet via CDN não são baixados para uso offline. Esta versão **não tem mapa offline**.
+- Para operação real, consultar sempre fontes oficiais e vigentes do DECEA/AISWEB, cartas/publicações aplicáveis, briefing, NOTAM e instrumentos aprovados. Este protótipo não os substitui.
 
 ## Arquivos
-- `index.html`: estrutura e dependências do mapa.
-- `style.css`: visual cockpit escuro e responsivo.
-- `app.js`: Leaflet, geolocation, instrumentos e rastro.
-- `manifest.webmanifest`: instalação PWA.
-- `sw.js`: cache básico do shell (não cacheia tiles).
-
-## Como testar pelo iPhone (sem Mac)
-1. Publique estes arquivos em um host HTTPS (por exemplo, GitHub Pages).
-2. Abra o URL publicado no Safari do iPhone.
-3. Toque em **INICIAR GPS** e autorize localização durante o uso.
-4. Teste em ambiente aberto e parado; compare a posição com outra fonte apenas para fins experimentais.
-5. Safari: Compartilhar → **Adicionar à Tela de Início** para criar um ícone de acesso.
+- `index.html`: interface.
+- `style.css`: estilo cockpit responsivo.
+- `app.js`: GPS, rastro, persistência local, cálculo e exibição de waypoint.
+- `manifest.webmanifest`: metadados PWA.
+- `sw.js`: cache básico do shell; não armazena tiles nem CDN.
 
 ## Próxima etapa sugerida
-Adicionar controle de qualidade de GPS (exibir precisão, rejeitar fixes muito antigos e explicar quando velocidade/heading não estão disponíveis), depois planejar waypoints e rota manual. Não integrar cartas oficiais até avaliar formatos, licença, atualização e requisitos de segurança.
-
-
-## V1.1 — Qualidade e idade do GPS
-
-- Indicador qualitativo de precisão: OK (≤15 m), moderado (15–50 m), baixa (>50 m).
-- Indicador de idade do fix: dado antigo (>10 s) e desatualizado (>30 s).
-- Campo de direção renomeado para TRK (trajetória sobre o solo); não representa rumo magnético.
-- Círculo de precisão visual limitado para evitar uma escala exagerada no mapa.
-
-Esses limites são heurísticos do protótipo, não critérios de segurança/certificação aeronáutica.
+Adicionar edição/exclusão de pontos, validação reforçada e testes de cálculo com casos conhecidos; depois avaliar importação de dados oficiais de aeródromos brasileiros, respeitando formato, licença, ciclo de atualização e integridade dos dados.
