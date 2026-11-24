@@ -1,0 +1,10 @@
+{
+  "name": "EFB Brasil - Protótipo",
+  "short_name": "EFB Brasil",
+  "description": "Protótipo experimental de mapa e GPS para desenvolvimento do EFB Brasil.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07111c",
+  "theme_color": "#07111c",
+  "orientation": "any"
+}

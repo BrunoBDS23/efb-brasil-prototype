@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EFB Brasil">
+  <title>EFB Brasil • Protótipo</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✈</span><div><strong>EFB BRASIL</strong><small>PROTÓTIPO • V1</small></div></div>
+    <div id="gpsStatus" class="status"><span class="dot"></span> GPS OFF</div>
+  </header>
+
+  <main>
+    <section class="map-wrap" aria-label="Mapa de localização">
+      <div id="map"></div>
+      <div class="map-label">MAPA BASE · ONLINE</div>
+      <button id="followBtn" class="map-button follow active" aria-label="Alternar acompanhamento">SEGUIR</button>
+      <button id="locateBtn" class="map-button locate" aria-label="Centralizar na minha localização">⌖</button>
+      <div id="mapWarning" class="map-warning">Mapa de referência. Não é carta aeronáutica.</div>
+    </section>
+
+    <section class="instrument-panel">
+      <div class="metrics">
+        <div class="metric"><label>GS</label><strong id="speed">---</strong><span>KT</span></div>
+        <div class="metric"><label>ALT GPS</label><strong id="altitude">---</strong><span>FT</span></div>
+        <div class="metric"><label>HDG</label><strong id="heading">---</strong><span>°</span></div>
+      </div>
+      <div class="coord-row"><div><label>LAT</label><strong id="lat">--.------</strong></div><div><label>LON</label><strong id="lon">--.------</strong></div></div>
+      <div class="detail-row"><span>PRECISÃO GPS</span><strong id="accuracy">---</strong><span class="divider"></span><span>ATUALIZAÇÃO</span><strong id="age">---</strong></div>
+    </section>
+
+  </main>
+  <footer class="bottom-bar">
+    <button id="startBtn" class="primary">INICIAR GPS</button>
+    <button id="clearTrailBtn" class="secondary">LIMPAR RASTRO</button>
+  </footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
