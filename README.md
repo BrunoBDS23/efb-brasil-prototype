@@ -25,3 +25,13 @@
 
 ## Próxima etapa sugerida
 Adicionar controle de qualidade de GPS (exibir precisão, rejeitar fixes muito antigos e explicar quando velocidade/heading não estão disponíveis), depois planejar waypoints e rota manual. Não integrar cartas oficiais até avaliar formatos, licença, atualização e requisitos de segurança.
+
+
+## V1.1 — Qualidade e idade do GPS
+
+- Indicador qualitativo de precisão: OK (≤15 m), moderado (15–50 m), baixa (>50 m).
+- Indicador de idade do fix: dado antigo (>10 s) e desatualizado (>30 s).
+- Campo de direção renomeado para TRK (trajetória sobre o solo); não representa rumo magnético.
+- Círculo de precisão visual limitado para evitar uma escala exagerada no mapa.
+
+Esses limites são heurísticos do protótipo, não critérios de segurança/certificação aeronáutica.
