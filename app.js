@@ -18,6 +18,7 @@
   const STORAGE_KEY = 'efb-brasil-waypoints-v1';
 
   const map = L.map('map', { zoomControl: false, attributionControl: true }).setView([-15.55, -54.0], 4);
+  window.efbMap = map;
   L.control.zoom({ position: 'bottomleft' }).addTo(map);
   L.control.scale({ imperial: true, metric: true, position: 'bottomleft' }).addTo(map);
   // OpenStreetMap standard tiles are an online reference basemap, not aeronautical charts.

@@ -1,37 +1,39 @@
-# EFB Brasil — protótipo V1.2 (PWA)
+# EFB Brasil — protótipo V1.3
 
-**Novidade V1.2:** cadastro local de waypoints em graus decimais, seleção de ponto salvo e função experimental DIRECT TO com linha geodésica de referência, distância em NM e bearing inicial verdadeiro (BRG TRUE).
+Protótipo educacional para desenvolvimento de interface, mapa, GPS, waypoints e estrutura de cadastro aeronáutico. Não é certificado, aprovado nem destinado a conduzir voo.
 
-## Como atualizar no GitHub Pages
-1. Faça backup do repositório atual.
-2. Extraia o conteúdo deste pacote.
-3. Substitua no repositório os arquivos `index.html`, `app.js`, `style.css`, `sw.js`, `manifest.webmanifest` e `README.md`.
-4. Faça commit na branch publicada pelo GitHub Pages.
-5. No iPhone, abra o endereço no Safari. Aguarde a atualização do site; se continuar vendo a versão anterior, feche a PWA, abra o endereço no Safari e recarregue. A chave de cache foi alterada para `v1.2`.
+## Publicação no GitHub Pages (Windows 11)
+1. Faça backup do repositório.
+2. Extraia este pacote e substitua os arquivos do site pelos arquivos desta pasta.
+3. Envie também `aerodromes.js` e `aerodromos-modelo.csv`.
+4. Faça commit na branch publicada pelo GitHub Pages e aguarde o deploy.
+5. No iPhone, abra o endereço no Safari e recarregue. Se a PWA mantiver a versão anterior, feche-a e abra primeiro o endereço no Safari.
 
-## Como usar o waypoint
-1. Inicie o GPS e aguarde um fix recente.
-2. Em WAYPOINT / DIRECT TO, informe uma identificação e latitude/longitude em **graus decimais**. Exemplo de formato: `-15.55000` e `-54.00000`. O campo aceita vírgula decimal, mas não graus/minutos/segundos nem letras N/S/E/W.
-3. Toque em **SALVAR E ATIVAR DIRECT TO**. O ponto fica salvo no armazenamento local deste navegador/dispositivo.
-4. A linha magenta é uma representação geométrica de referência. DISTÂNCIA usa fórmula de Haversine com raio médio da Terra; BRG TRUE é o azimute inicial verdadeiro calculado a partir do último fix.
-5. Para ativar outro ponto salvo, selecione-o e toque em ATIVAR. CANCELAR DESTINO remove a rota ativa, mas mantém os pontos salvos.
+## Cadastro local de aeródromos
+A V1.3 não inclui uma base aeronáutica inventada nem consulta uma API automaticamente. A API AISWEB exige credenciais solicitadas ao DECEA. Para começar, use o GeoAISWEB/AISWEB para obter os dados e confirmar o formato, o ciclo e as condições de utilização. Prepare um CSV com as colunas abaixo (a ordem pode variar):
 
-## Limitações importantes
-- Este é um protótipo educacional e **não é um EFB operacional, certificado ou aprovado para navegação aérea**.
-- O fundo é OpenStreetMap padrão, não carta aeronáutica.
-- BRG TRUE não é proa magnética. Não há correção de declinação magnética, vento, deriva, performance, obstáculos, terreno, espaços aéreos, NOTAM, procedimentos ou restrições.
-- A distância é grande-círculo aproximada entre coordenadas; não é distância de rota operacional nem previsão de tempo.
-- Coordenadas dependem do GPS/browser e podem estar imprecisas, atrasadas ou indisponíveis. Se o fix tiver mais de 10 segundos, os valores de rota são ocultados.
-- Waypoints ficam em `localStorage` do navegador e podem ser apagados pelo sistema ou pelo usuário; não há sincronização nem backup nesta versão.
-- O shell básico é armazenado em cache, mas os tiles do mapa e as bibliotecas Leaflet via CDN não são baixados para uso offline. Esta versão **não tem mapa offline**.
-- Para operação real, consultar sempre fontes oficiais e vigentes do DECEA/AISWEB, cartas/publicações aplicáveis, briefing, NOTAM e instrumentos aprovados. Este protótipo não os substitui.
+`icao,name,latitude,longitude,elevation_ft,runways,frequencies,source,valid_from`
 
-## Arquivos
-- `index.html`: interface.
-- `style.css`: estilo cockpit responsivo.
-- `app.js`: GPS, rastro, persistência local, cálculo e exibição de waypoint.
-- `manifest.webmanifest`: metadados PWA.
-- `sw.js`: cache básico do shell; não armazena tiles nem CDN.
+- `icao`: identificador de quatro caracteres.
+- `name`: nome oficial do aeródromo.
+- `latitude` e `longitude`: graus decimais WGS84; sul e oeste normalmente negativos no Brasil.
+- `elevation_ft`: elevação em pés (opcional; deixe vazio se não confirmada).
+- `runways` e `frequencies`: texto descritivo opcional, sem substituir a consulta à publicação vigente.
+- `source`: identificação da publicação/conjunto oficial e, se possível, edição/ciclo.
+- `valid_from`: data de início de validade no formato AAAA-MM-DD ou identificação clara do ciclo AIRAC.
 
-## Próxima etapa sugerida
-Adicionar edição/exclusão de pontos, validação reforçada e testes de cálculo com casos conhecidos; depois avaliar importação de dados oficiais de aeródromos brasileiros, respeitando formato, licença, ciclo de atualização e integridade dos dados.
+O botão “IMPORTAR CSV” substitui o conjunto local inteiro após validação. Faça backup do arquivo de origem; armazenamento do navegador pode ser apagado. Não misture ciclos diferentes. O app exibe fonte e validade, mas não consegue confirmar sozinho se o dado continua vigente.
+
+## Fontes oficiais para obtenção e conferência
+- AISWEB: https://aisweb.decea.mil.br/
+- GEOAISWEB: https://geoaisweb.decea.mil.br/
+- Solicitação de acesso à API AISWEB: https://aisweb.decea.mil.br/?i=publicacoes&p=api
+
+O DECEA informa que a API pode disponibilizar cartas, AIP, ROTAER, NOTAM, meteorologia e outros serviços; o acesso requer solicitação de chave. O GEOAISWEB informa disponibilização de dados vetoriais em formatos como KML/SHP e geosserviços. Não se deve presumir que o arquivo baixado tenha diretamente o cabeçalho CSV deste protótipo: a conversão deve preservar significado, unidades, datum, fonte e ciclo.
+
+## Limitações de segurança
+- O mapa de fundo é OpenStreetMap e não é carta aeronáutica.
+- O cadastro importado é uma ferramenta local de consulta experimental, sem garantia de completude, integridade ou atualização automática.
+- Não usar este protótipo para navegação operacional, separação, seleção de pista ou decisão de segurança.
+- Consultar sempre AIP, ROTAER, cartas vigentes, NOTAM, METAR/TAF e briefing oficiais aplicáveis, além dos instrumentos aprovados e procedimentos do operador.
+- Nenhuma certificação ou conformidade regulatória é alegada.

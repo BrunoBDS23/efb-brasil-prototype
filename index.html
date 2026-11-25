@@ -8,14 +8,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="EFB Brasil">
-  <title>EFB Brasil • Protótipo V1.2</title>
+  <title>EFB Brasil • Protótipo V1.3</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">✈</span><div><strong>EFB BRASIL</strong><small>PROTÓTIPO • V1.2</small></div></div>
+    <div class="brand"><span class="brand-mark">✈</span><div><strong>EFB BRASIL</strong><small>PROTÓTIPO • V1.3</small></div></div>
     <div id="gpsStatus" class="status"><span class="dot"></span> GPS OFF</div>
   </header>
 
@@ -66,6 +66,22 @@
       <button id="cancelRouteBtn" class="cancel-route" type="button">CANCELAR DESTINO ATIVO</button>
       <p class="route-caution">BRG TRUE e distância são cálculos geométricos aproximados entre a última posição GPS e o ponto. Não incluem vento, declinação magnética, obstáculos, espaços aéreos ou procedimentos. Não usar para conduzir voo.</p>
     </section>
+
+    <section class="aerodrome-panel" aria-label="Cadastro local de aeródromos">
+      <div class="route-heading">
+        <div><span class="eyebrow">BASE AERONÁUTICA · EXPERIMENTAL</span><h2>AERÓDROMOS</h2></div>
+        <span id="aerodromeCount" class="route-status">0 REGISTROS</span>
+      </div>
+      <input id="aerodromeSearch" class="airport-search" type="search" placeholder="Buscar por ICAO ou nome" autocomplete="off">
+      <div id="aerodromeList" class="airport-list"></div>
+      <div class="airport-actions">
+        <label class="secondary file-label">IMPORTAR CSV<input id="aerodromeFile" type="file" accept=".csv,text/csv"></label>
+        <button id="downloadAirportTemplate" class="secondary" type="button">BAIXAR MODELO CSV</button>
+        <button id="clearAerodromes" class="secondary" type="button">APAGAR BASE LOCAL</button>
+      </div>
+      <p id="aerodromeStatus" class="airport-status" role="status">Aguardando importação.</p>
+      <p class="route-caution">Nenhum aeródromo é fornecido ou presumido nesta versão. Importe apenas dados obtidos e conferidos em fonte oficial. O cadastro local não substitui AIP, ROTAER, cartas vigentes, NOTAM ou briefing. A data valid_from e a fonte acompanham cada registro; a atualização e a conferência continuam sendo responsabilidade do operador.</p>
+    </section>
   </main>
 
   <footer class="bottom-bar">
@@ -75,5 +91,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="app.js"></script>
+  <script src="aerodromes.js"></script>
 </body>
 </html>
